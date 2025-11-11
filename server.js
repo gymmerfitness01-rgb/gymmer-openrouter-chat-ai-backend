@@ -37,7 +37,26 @@ app.post("/api/ask", async (req, res) => {
     });
 
     const data = await response.json();
-    res.json(data);
+
+    // xtract response safely (works across multiple model formats)
+    let content =
+      data?.choices?.[0]?.message?.content ||
+      data?.choices?.[0]?.text ||
+      data?.message?.content ||
+      data?.content ||
+      "";
+
+    // Clean up any model artifacts or control tokens
+    content = content
+      .replace(/<\｜.*?\｜>/g, "") // handles <｜begin▁of▁sentence｜>
+      .replace(/<\|.*?\|>/g, "")   // handles <|im_start|>, <|im_end|>
+      .trim();
+
+    // Return plain text to Flutter
+    res.setHeader("Content-Type", "text/plain");
+    res.send(content || "No response from model.");
+
+    
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
