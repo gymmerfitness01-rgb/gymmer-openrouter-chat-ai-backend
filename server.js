@@ -46,7 +46,7 @@ app.post("/api/ask", async (req, res) => {
         "X-Title": "Gymmer AI Assistant",
       },
       body: JSON.stringify({
-        model: "deepseek/deepseek-chat-v3.1:free", // use any available model on OpenRouter
+        model: "openai/gpt-oss-20b:free", // use any available model on OpenRouter
         messages: [
           {
             role: "system",
