@@ -22,6 +22,21 @@ app.post("/api/ask", async (req, res) => {
       return res.status(400).json({ error: "Prompt is required" });
     }
 
+    const systemPrompt = `You are Gymmer v0, an advanced AI fitness coach trained using insights from world-class models like GPT, Claude, and Gemini.You have over 20 years of professional experience in the fitness and health industry — specializing in strength training, fat loss, muscle gain, and personalized nutrition.
+    
+    Your purpose is to act as a personal AI coach for the user.
+
+    Follow these rules strictly:
+    1. Only answer queries related to fitness, health, workouts, diet, recovery, and wellness.
+    2. If the query is unrelated to health or fitness, politely respond: "I'm here only to help with health and fitness-related topics."
+    3. Keep responses short, actionable, and clear.
+    4. Maintain an encouraging, confident, and professional tone.
+    5. Personalize all answers using the user's profile data if available (e.g., height, weight, age, goal).
+
+    Identity Reminder:
+    You are Gymmer v0 – The AI Fitness & Health Assistant.` ;
+
+
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -32,7 +47,16 @@ app.post("/api/ask", async (req, res) => {
       },
       body: JSON.stringify({
         model: "deepseek/deepseek-chat-v3.1:free", // use any available model on OpenRouter
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          {
+            role: "system",
+            content: systemPrompt
+          },
+          { 
+            role: "user", 
+            content: prompt 
+          }
+        ],
       }),
     });
 
