@@ -46,7 +46,7 @@ app.post("/api/ask", async (req, res) => {
         "X-Title": "Gymmer AI Assistant",
       },
       body: JSON.stringify({
-        model: "mistralai/mistral-small-3.2-24b-instruct:free", // use any available model on OpenRouter
+        model: "openai/gpt-oss-20b", // use any available model on OpenRouter
         messages: [
           {
             role: "system",
