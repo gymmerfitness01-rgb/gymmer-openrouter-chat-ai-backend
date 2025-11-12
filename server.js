@@ -46,7 +46,7 @@ app.post("/api/ask", async (req, res) => {
         "X-Title": "Gymmer AI Assistant",
       },
       body: JSON.stringify({
-        model: "openai/gpt-oss-20b:free", // use any available model on OpenRouter
+        model: "mistralai/mistral-small-3.2-24b-instruct:free", // use any available model on OpenRouter
         messages: [
           {
             role: "system",
@@ -61,6 +61,8 @@ app.post("/api/ask", async (req, res) => {
     });
 
     const data = await response.json();
+
+    console.log("OpenRouter raw response:", JSON.stringify(data, null, 2));
 
     // xtract response safely (works across multiple model formats)
     let content =
